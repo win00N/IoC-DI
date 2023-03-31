@@ -11,6 +11,11 @@ namespace IoC_DI
         /// <summary>
         /// Алгоритм поиска хеша.
         /// </summary>
+        private IAlgorithm _algorithm;
+
+        /// <summary>
+        /// Алгоритм поиска хеша.
+        /// </summary>
         private SHA256 sha256;
 
         /// <summary>
@@ -26,9 +31,9 @@ namespace IoC_DI
         /// <summary>
         /// Создать экземпляр майнера
         /// </summary>
-        public Miner()
+        public Miner(IAlgorithm algorithm)
         {
-            sha256 = new SHA256();
+            _algorithm = algorithm;
             thread = new Thread(Mine);
         }
 

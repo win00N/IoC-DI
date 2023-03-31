@@ -6,7 +6,7 @@ namespace IoC_DI
     /// <summary>
     /// Алгоритм вычисления хеш-функции SHA256.
     /// </summary>
-    public class SHA256
+    public class SHA256 : IAlgorithm
     {
         /// <summary>
         /// Вычисление нового хеша.
