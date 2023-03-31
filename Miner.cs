@@ -8,7 +8,7 @@ public class Miner
     /// <summary>
     /// Алгоритм поиска хеша.
     /// </summary>
-    private IAlgorithm _algorithm;
+    public IAlgorithm Algorithm { get; set; }
 
     /// <summary>
     /// Алгоритм поиска хеша.
@@ -29,9 +29,8 @@ public class Miner
     /// Создать экземпляр майнера
     /// </summary>
     /// 
-    public Miner(IAlgorithm algorithm)
+    public Miner()
     {
-        _algorithm = algorithm;
         thread = new Thread(Mine);
     }
 
@@ -58,7 +57,7 @@ public class Miner
     {
         while (true)
         {
-            var hashResult = _algorithm.Hash();
+            var hashResult = Algorithm.Hash();
             HashFound?.Invoke(this, hashResult);
         }
     }

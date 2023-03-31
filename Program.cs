@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            Miner miner = null;
+            var miner = new Miner();
 
             Console.WriteLine("Выберите алгоритм: ");
             Console.WriteLine("1 - SHA256 ");
@@ -16,10 +16,10 @@
                 switch (algorithm)
                 {
                     case 1:
-                        miner = new Miner(new SHA256());
+                        miner.Algorithm = new SHA256();
                         break;
                     case 2:
-                        miner = new Miner(new Ethash());
+                        miner.Algorithm = new Ethash();
                         break;
                     default:
                         throw new ArgumentException("Неизвестный алгоритм.", nameof(algorithm));
