@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IoC_DI
+﻿namespace IoC_DI
 {
     /// <summary>
     /// Базовый интерфейс криптоалгоритма хеш-функции.
     /// </summary>
-    internal interface IAlgorithm
+    public interface IAlgorithm
     {
         bool Hash();
     }

@@ -1,68 +1,65 @@
-﻿using System;
-using System.Threading;
+﻿namespace IoC_DI;
 
-namespace IoC_DI
+/// <summary>
+/// Основной класс выполняющих майнинг.
+/// </summary>
+public class Miner
 {
     /// <summary>
-    /// Основной класс выполняющих майнинг.
+    /// Алгоритм поиска хеша.
     /// </summary>
-    public class Miner
+    private IAlgorithm _algorithm;
+
+    /// <summary>
+    /// Алгоритм поиска хеша.
+    /// </summary>
+    private SHA256 sha256;
+
+    /// <summary>
+    /// Поток в котором выполняется поиск.
+    /// </summary>
+    private Thread thread;
+
+    /// <summary>
+    /// Событие нахождения хеша.
+    /// </summary>
+    public event EventHandler<bool> HashFound;
+
+    /// <summary>
+    /// Создать экземпляр майнера
+    /// </summary>
+    /// 
+    public Miner(IAlgorithm algorithm)
     {
-        /// <summary>
-        /// Алгоритм поиска хеша.
-        /// </summary>
-        private IAlgorithm _algorithm;
+        _algorithm = algorithm;
+        thread = new Thread(Mine);
+    }
 
-        /// <summary>
-        /// Алгоритм поиска хеша.
-        /// </summary>
-        private SHA256 sha256;
+    /// <summary>
+    /// Начать майнинг.
+    /// </summary>
+    public void Start()
+    {
+        thread.Start();
+    }
 
-        /// <summary>
-        /// Поток в котором выполняется поиск.
-        /// </summary>
-        private Thread thread;
+    /// <summary>
+    /// Остановить майнинг.
+    /// </summary>
+    public void Stop()
+    {
+        thread.Abort();
+    }
 
-        /// <summary>
-        /// Событие нахождения хеша.
-        /// </summary>
-        public event EventHandler<bool> HashFound;
-
-        /// <summary>
-        /// Создать экземпляр майнера
-        /// </summary>
-        public Miner(IAlgorithm algorithm)
+    /// <summary>
+    /// Метод выполняющий майнинг.
+    /// </summary>
+    private void Mine()
+    {
+        while (true)
         {
-            _algorithm = algorithm;
-            thread = new Thread(Mine);
-        }
-
-        /// <summary>
-        /// Начать майнинг.
-        /// </summary>
-        public void Start()
-        {
-            thread.Start();
-        }
-
-        /// <summary>
-        /// Остановить майнинг.
-        /// </summary>
-        public void Stop()
-        {
-            thread.Abort();
-        }
-
-        /// <summary>
-        /// Метод выполняющий майнинг.
-        /// </summary>
-        private void Mine()
-        {
-            while (true)
-            {
-                var hashResult = sha256.Hash();
-                HashFound?.Invoke(this, hashResult);
-            }
+            var hashResult = _algorithm.Hash();
+            HashFound?.Invoke(this, hashResult);
         }
     }
 }

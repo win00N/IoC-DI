@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-
-namespace IoC_DI
+﻿namespace IoC_DI
 {
     /// <summary>
     /// Алгоритм вычисления хеш-функции SHA256.
