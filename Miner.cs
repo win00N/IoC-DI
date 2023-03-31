@@ -6,16 +6,6 @@
 public class Miner
 {
     /// <summary>
-    /// Алгоритм поиска хеша.
-    /// </summary>
-    public IAlgorithm Algorithm { get; set; }
-
-    /// <summary>
-    /// Алгоритм поиска хеша.
-    /// </summary>
-    private SHA256 sha256;
-
-    /// <summary>
     /// Поток в котором выполняется поиск.
     /// </summary>
     private Thread thread;
@@ -31,14 +21,15 @@ public class Miner
     /// 
     public Miner()
     {
-        thread = new Thread(Mine);
+        
     }
 
     /// <summary>
     /// Начать майнинг.
     /// </summary>
-    public void Start()
+    public void Start(IAlgorithm algorithm)
     {
+        thread = new Thread(() => Mine(algorithm));
         thread.Start();
     }
 
@@ -53,11 +44,11 @@ public class Miner
     /// <summary>
     /// Метод выполняющий майнинг.
     /// </summary>
-    private void Mine()
+    private void Mine(IAlgorithm algorithm)
     {
         while (true)
         {
-            var hashResult = Algorithm.Hash();
+            var hashResult = algorithm.Hash();
             HashFound?.Invoke(this, hashResult);
         }
     }

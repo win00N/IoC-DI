@@ -6,30 +6,32 @@
         {
             var miner = new Miner();
 
+            IAlgorithm algorithm = null;
+
             Console.WriteLine("Выберите алгоритм: ");
             Console.WriteLine("1 - SHA256 ");
             Console.WriteLine("2 - Ethash");
             var algorithmInput = Console.ReadLine();
 
-            if (int.TryParse(algorithmInput, out int algorithm))
+            if (int.TryParse(algorithmInput, out int algo))
             {
-                switch (algorithm)
+                switch (algo)
                 {
                     case 1:
-                        miner.Algorithm = new SHA256();
+                        algorithm = new SHA256();
                         break;
                     case 2:
-                        miner.Algorithm = new Ethash();
+                        algorithm = new Ethash();
                         break;
                     default:
-                        throw new ArgumentException("Неизвестный алгоритм.", nameof(algorithm));
+                        throw new ArgumentException("Неизвестный алгоритм.", nameof(algo));
                 }
             }
 
             miner.HashFound += Miner_HashFound;
 
             Console.WriteLine($"Start: {DateTime.Now.ToShortTimeString()}");
-            miner.Start();
+            miner.Start(algorithm);
         }
 
         private static void Miner_HashFound(object sender, bool e)
